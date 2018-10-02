@@ -22,7 +22,7 @@ import { NotificationsComponent } from './notifications/notifications.component'
 import { UpgradeComponent } from './upgrade/upgrade.component';
 import { DepositComponent } from './home/deposit/deposit.component';
 import { TripInfoComponent } from './home/trip-info/trip.info.component';
-
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,7 +35,8 @@ import { TripInfoComponent } from './home/trip-info/trip.info.component';
     NotificationsComponent,
     UpgradeComponent,
     DepositComponent,
-    TripInfoComponent
+    TripInfoComponent,
+    
 
   ],
   imports: [
@@ -47,7 +48,8 @@ import { TripInfoComponent } from './home/trip-info/trip.info.component';
     SidebarModule,
     RouterModule,
     AppRoutingModule,
-    LbdModule
+    LbdModule,
+    CKEditorModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
