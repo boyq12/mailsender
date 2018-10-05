@@ -20,9 +20,13 @@ import { IconsComponent } from './icons/icons.component';
 import { MapsComponent } from './maps/maps.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { UpgradeComponent } from './upgrade/upgrade.component';
-import { DepositComponent } from './home/deposit/deposit.component';
-import { TripInfoComponent } from './home/trip-info/trip.info.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+
+import {MatButtonModule} from '@angular/material/button';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MatInputModule} from '@angular/material/input';
+import { Ng2SmartTableModule } from 'ngx-smart-table';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,9 +38,6 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
     MapsComponent,
     NotificationsComponent,
     UpgradeComponent,
-    DepositComponent,
-    TripInfoComponent,
-    
 
   ],
   imports: [
@@ -50,6 +51,10 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
     AppRoutingModule,
     LbdModule,
     CKEditorModule,
+    BrowserAnimationsModule,
+    MatButtonModule,
+    MatInputModule,
+    Ng2SmartTableModule
   ],
   providers: [],
   bootstrap: [AppComponent]

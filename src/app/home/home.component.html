@@ -1,26 +1,17 @@
 <div class="main-content">
     <div class="container-fluid">
         <div class="row">
-            <ul class="nav nav-tabs">
-                <li class="active">
-                    <a href="#1" data-toggle="tab">Deposit Success</a>
-                </li>
-                <li>
-                    <a href="#2" data-toggle="tab">Trip Info</a>
-                </li>
-                <li>
-                    <a href="#3" data-toggle="tab">Advertisement</a>
-                </li>
-            </ul>
-
-            <div class="tab-content ">
-                <div class="tab-pane active" id="1">
-                        <ckeditor [editor]="Editor" data="<p>Hello world!</p>"></ckeditor>
+            <div class="col-md-6 col-xs-12">
+                <ckeditor [editor]="Editor" data="<p>Hello world!</p>"></ckeditor>
+            </div>
+            <div class="col-md-6 col-xs-12">
+                <div>
+                    <button mat-raised-button (click)="customerFileInput.click()">Import Customer Email</button>
+                    <input style="display: none;" type="file" #customerFileInput (change)="onFileChange($event)"
+                        multiple="false" />
                 </div>
-                <div class="tab-pane" id="2">
-                    <!-- <app-trip-info></app-trip-info> -->
-                </div>
-                <div class="tab-pane" id="3">
+                <div>
+                    <ng2-smart-table [settings]="settings" [source]="convertedData"></ng2-smart-table>
                 </div>
             </div>
         </div>
