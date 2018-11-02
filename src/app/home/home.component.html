@@ -26,7 +26,7 @@
                 <div [innerHtml]="sampleEmail" style="border: 1px solid #aa2211;">
                 </div>
                 <div class="colunm" style="margin: 8px;">
-                    <button mat-raised-button style="margin: auto 8px;">Send To {{convertedData.length}} Emails</button>
+                    <button mat-raised-button (click)="sendEmails()" style="margin: auto 8px;">Send To {{convertedData.length}} Emails</button>
                 </div>
             </div>
             <div class="col-md-6 col-xs-12">

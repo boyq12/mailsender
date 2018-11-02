@@ -1,8 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { Http, Headers, RequestOptions } from "@angular/http";
 
 import * as XLSX from 'xlsx';
 type AOA = any[][];
+
+var api_key = '30a5f6f102695b8249eb47a583023c24-0e6e8cad-b826fe4c';
+var domain = 'sandbox345342effc71485aafbe4fff874301dd.mailgun.org';
+const mailgunUrl: string = "MAILGUN_URL_HERE";
+// const mailgun = require('mailgun-js')({ apiKey: api_key, domain: domain });
+
+
 
 @Component({
   selector: 'app-home',
@@ -35,7 +43,7 @@ export class HomeComponent implements OnInit {
   convertedData = [];
   bulkEmail = [];
   sampleEmail = "";
-  constructor() { }
+  constructor(private http: Http) { }
 
   ngOnInit() {
 
@@ -104,7 +112,7 @@ export class HomeComponent implements OnInit {
       tempEmail.content = this.emailContent;
       this.settings.columns.forEach((col, pos) => {
         var replaceCode = "${" + col.title + "}";
-        if(col.title.toLowerCase() == "email"){
+        if (col.title.toLowerCase() == "email") {
           tempEmail.email = data[pos];
         }
         tempEmail.content = tempEmail.content.replace(replaceCode, data[pos]);
@@ -113,6 +121,35 @@ export class HomeComponent implements OnInit {
     });
     console.log(this.bulkEmail);
     this.sampleEmail = this.bulkEmail[0].content || "";
+  }
+
+  sendEmails() {
+    let headers = new Headers(
+      {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Authorization": "Basic " + api_key
+      }
+    );
+    let options = new RequestOptions({ headers: headers });
+    this.bulkEmail.forEach(email => {
+      let body = "from=cskh@easytrip.com&to=" + email.email + "&subject=" + "Hellp" + "&html=" + email.content;
+      this.http.post("https://api.mailgun.net/v3/" + domain + "/messages", body, options)
+                .subscribe(result => {
+                  console.log(result)
+                }, error => {
+                    console.log(error);
+                });
+      // var data = {
+      //   from: "Nam <leanhnam2203@gmail.com>",
+      //   to: ["test@example.com"],
+      //   subject: "Hello",
+      //   html: email.content
+      // };
+      // mailgun.messages().send(data, { 'content-type': 'text/html' }, function (error, body) {
+      //   console.log(body);
+      // });
+    })
+
   }
 
 }
