@@ -13,10 +13,28 @@ export class HomeComponent implements OnInit {
 
   public Editor = ClassicEditor;
   data: AOA = [];
+  emailContent: string = "<p>Enter email here</p>";
+  preEmail: string = "";
   settings = {
-    columns : {}
+    columns: [],
+    pager: {
+      display: true,
+      perPage: 10
+    },
+    actions: {
+      add: false,
+      edit: false,
+      delete: false,
+      position: 'left'
+    },
+    attr: {
+      class: 'table table-striped table-bordered table-hover'
+    },
+    defaultStyle: false
   };
   convertedData = [];
+  bulkEmail = [];
+  sampleEmail = "";
   constructor() { }
 
   ngOnInit() {
@@ -25,43 +43,76 @@ export class HomeComponent implements OnInit {
   }
 
   onFileChange(evt: any) {
-		/* wire up file reader */
-		const target: DataTransfer = <DataTransfer>(evt.target);
-		if (target.files.length !== 1) throw new Error('Cannot use multiple files');
-		const reader: FileReader = new FileReader();
-		reader.onload = (e: any) => {
-			/* read workbook */
-			const bstr: string = e.target.result;
-			const wb: XLSX.WorkBook = XLSX.read(bstr, {type: 'binary'});
+    /* wire up file reader */
+    const target: DataTransfer = <DataTransfer>(evt.target);
+    if (target.files.length !== 1) throw new Error('Cannot use multiple files');
+    const reader: FileReader = new FileReader();
+    reader.onload = (e: any) => {
+      /* read workbook */
+      const bstr: string = e.target.result;
+      const wb: XLSX.WorkBook = XLSX.read(bstr, { type: 'binary' });
 
-			/* grab first sheet */
-			const wsname: string = wb.SheetNames[0];
-			const ws: XLSX.WorkSheet = wb.Sheets[wsname];
+      /* grab first sheet */
+      const wsname: string = wb.SheetNames[0];
+      const ws: XLSX.WorkSheet = wb.Sheets[wsname];
 
-			/* save data */
-      this.data = <AOA>(XLSX.utils.sheet_to_json(ws, {header: 1}));
+      /* save data */
+      this.data = <AOA>(XLSX.utils.sheet_to_json(ws, { header: 1 }));
       this.convertData();
-		};
-		reader.readAsBinaryString(target.files[0]);
+    };
+    reader.readAsBinaryString(target.files[0]);
   }
-  
-  convertData(){
+
+  convertData() {
+    var newSettings = {
+      columns: [],
+      pager: {
+        display: true,
+        perPage: 10
+      },
+      actions: {
+        add: false,
+        edit: false,
+        delete: false,
+        position: 'left'
+      },
+      attr: {
+        class: 'table table-striped table-bordered table-hover'
+      },
+      defaultStyle: false
+    };
     this.data.forEach((values, i) => {
-      if(i == 0){
+      if (i == 0) {
         values.forEach((header, pos) => {
-          this.settings.columns[`${pos}`] = {title: header};
+          newSettings.columns[`${pos}`] = { title: header };
         });
       } else {
         var newRow = {};
         values.forEach((value, pos) => {
           newRow[`${pos}`] = value;
         });
-        
+
         this.convertedData.push(newRow);
       }
     });
-    console.log(this.settings);
-    console.log(this.convertedData);
+    this.settings = Object.assign({}, newSettings);
+  }
+  emailContentChange() {
+    this.bulkEmail = Object.assign([], []);
+    this.convertedData.forEach(data => {
+      var tempEmail = { email: "", content: "" };
+      tempEmail.content = this.emailContent;
+      this.settings.columns.forEach((col, pos) => {
+        var replaceCode = "${" + col.title + "}";
+        if(col.title.toLowerCase() == "email"){
+          tempEmail.email = data[pos];
+        }
+        tempEmail.content = tempEmail.content.replace(replaceCode, data[pos]);
+      });
+      this.bulkEmail.push(tempEmail);
+    });
+    console.log(this.bulkEmail);
+    this.sampleEmail = this.bulkEmail[0].content || "";
   }
 
 }

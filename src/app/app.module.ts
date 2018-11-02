@@ -26,6 +26,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatInputModule} from '@angular/material/input';
 import { Ng2SmartTableModule } from 'ngx-smart-table';
+import { CarouselModule } from '../../node_modules/ngx-bootstrap/carousel';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { Ng2SmartTableModule } from 'ngx-smart-table';
     BrowserAnimationsModule,
     MatButtonModule,
     MatInputModule,
-    Ng2SmartTableModule
+    Ng2SmartTableModule,
+    CarouselModule
   ],
   providers: [],
   bootstrap: [AppComponent]

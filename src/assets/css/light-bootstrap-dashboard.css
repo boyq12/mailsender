@@ -944,7 +944,7 @@ input:focus {
 .table > thead > tr > th {
   border-bottom-width: 1px;
   font-size: 12px;
-  text-transform: uppercase;
+  text-transform: none;
   color: #9A9A9A;
   font-weight: 400;
   padding-bottom: 5px; }

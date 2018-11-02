@@ -2,18 +2,36 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-6 col-xs-12">
-                <ckeditor [editor]="Editor" data="<p>Hello world!</p>"></ckeditor>
+                <ckeditor [editor]="Editor" [(ngModel)]="emailContent" (ngModelChange)="emailContentChange();"></ckeditor>
             </div>
             <div class="col-md-6 col-xs-12">
                 <div>
-                    <button mat-raised-button (click)="customerFileInput.click()">Import Customer Email</button>
+                    <div class="colunm">
+                        <button mat-raised-button (click)="customerFileInput.click()" style="margin: auto 8px;">Import
+                            Customer Email</button>
+                        <button mat-raised-button style="margin: auto 8px;">Export
+                            Customer Email</button>
+                    </div>
                     <input style="display: none;" type="file" #customerFileInput (change)="onFileChange($event)"
                         multiple="false" />
                 </div>
-                <div>
-                    <ng2-smart-table [settings]="settings" [source]="convertedData"></ng2-smart-table>
+                <div style="margin-top: 12px;">
+                    <ng2-smart-table [(settings)]="settings" [(source)]="convertedData"></ng2-smart-table>
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-6 col-xs-12">
+                <h2>Preview Email</h2>
+                <div [innerHtml]="sampleEmail" style="border: 1px solid #aa2211;">
+                </div>
+                <div class="colunm" style="margin: 8px;">
+                    <button mat-raised-button style="margin: auto 8px;">Send To {{convertedData.length}} Emails</button>
+                </div>
+            </div>
+            <div class="col-md-6 col-xs-12">
+            </div>
+        </div>
+
     </div>
 </div>
